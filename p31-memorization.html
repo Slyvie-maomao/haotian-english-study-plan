@@ -1,0 +1,1658 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>P31 前三段互动背诵指导</title>
+  <style>
+    :root {
+      --paper: #f6f6f2;
+      --surface: #ffffff;
+      --ink: #202723;
+      --muted: #66706a;
+      --line: #d7dcd8;
+      --line-strong: #aeb8b2;
+      --green: #28594a;
+      --green-soft: #edf3ef;
+      --rust: #a44f35;
+      --rust-soft: #f8eee9;
+      --gray-soft: #f0f1ee;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 126px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      min-height: 40px;
+      padding: 7px 13px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      color: var(--ink);
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    button:focus-visible,
+    textarea:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(40, 89, 74, 0.22);
+      outline-offset: 2px;
+    }
+
+    button:disabled {
+      opacity: 0.46;
+      cursor: not-allowed;
+    }
+
+    a { color: inherit; }
+    h1, h2, h3, p { margin-top: 0; }
+
+    .en,
+    .source-copy,
+    .initial-lines {
+      font-family: Baskerville, "Iowan Old Style", "Times New Roman", serif;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 246, 242, 0.97);
+      backdrop-filter: blur(9px);
+    }
+
+    .topbar-main {
+      width: min(1080px, calc(100% - 32px));
+      min-height: 60px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .brand strong {
+      font-family: Baskerville, "Iowan Old Style", "Songti SC", serif;
+      font-size: 19px;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .quick-actions a {
+      padding: 5px 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .quick-actions a:hover { color: var(--green); }
+
+    .section-nav {
+      border-top: 1px solid var(--line);
+    }
+
+    .section-nav-inner {
+      width: min(1080px, calc(100% - 32px));
+      min-height: 48px;
+      margin: 0 auto;
+      display: flex;
+      align-items: stretch;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .section-nav-inner::-webkit-scrollbar { display: none; }
+
+    .section-nav a {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      padding: 9px 13px;
+      border-bottom: 3px solid transparent;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .section-nav a:hover {
+      border-bottom-color: var(--green);
+      color: var(--green);
+    }
+
+    main {
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 48px 0 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
+      gap: 42px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .eyebrow {
+      margin-bottom: 11px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .page-number {
+      padding-bottom: 2px;
+      border-bottom: 4px solid var(--rust);
+      color: var(--rust);
+      font-family: Baskerville, "Iowan Old Style", serif;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .page-purpose {
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Songti SC", "STSong", Baskerville, serif;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 13px;
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: 1.14;
+    }
+
+    .hero-lead {
+      max-width: 760px;
+      margin-bottom: 0;
+      color: #46514b;
+      font-size: 17px;
+    }
+
+    .hero-method {
+      align-self: end;
+      padding: 0 0 2px 20px;
+      border-left: 4px solid var(--green);
+    }
+
+    .hero-method strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--green);
+    }
+
+    .lesson-toc {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: lesson-toc;
+    }
+
+    .lesson-toc li {
+      counter-increment: lesson-toc;
+      border-top: 1px solid var(--line);
+    }
+
+    .lesson-toc a {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 7px;
+      padding: 8px 0;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .lesson-toc a::before {
+      content: counter(lesson-toc, decimal-leading-zero);
+      color: var(--rust);
+      font-family: Baskerville, "Iowan Old Style", serif;
+      font-weight: 700;
+    }
+
+    .lesson-toc a:hover { color: var(--green); }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 26px 0 8px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .overview-step {
+      min-height: 112px;
+      padding: 16px 18px;
+      border-right: 1px solid var(--line);
+    }
+
+    .overview-step:last-child { border-right: 0; }
+
+    .overview-step b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--green);
+    }
+
+    .overview-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grammar-guide {
+      margin-top: 38px;
+      border-top: 3px solid var(--green);
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .grammar-head {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: 22px;
+      padding: 22px 0 18px;
+    }
+
+    .grammar-head .grammar-label {
+      color: var(--rust);
+      font-family: Baskerville, "Iowan Old Style", "Songti SC", serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .grammar-head h2 {
+      margin-bottom: 5px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .grammar-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grammar-formulas {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .grammar-formula {
+      padding: 17px 19px;
+      border-right: 1px solid var(--line);
+    }
+
+    .grammar-formula:last-child { border-right: 0; }
+
+    .grammar-formula b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green);
+    }
+
+    .grammar-formula .formula {
+      margin-bottom: 6px;
+      color: var(--rust);
+      font-family: Baskerville, "Iowan Old Style", "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .grammar-formula p:last-child {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grammar-rules {
+      margin-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .grammar-row {
+      display: grid;
+      grid-template-columns: 145px minmax(0, 1fr) minmax(0, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .grammar-row > div {
+      padding: 11px 13px;
+      border-right: 1px solid var(--line);
+    }
+
+    .grammar-row > div:last-child { border-right: 0; }
+
+    .grammar-row .rule-name {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .grammar-row .rule-example {
+      font-family: Baskerville, "Iowan Old Style", "Times New Roman", serif;
+      font-size: 16px;
+    }
+
+    .grammar-row .rule-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grammar-text-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .grammar-source {
+      min-height: 116px;
+      padding: 14px 16px;
+      background: #fbfbf8;
+    }
+
+    .grammar-source b {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .grammar-source p {
+      margin-bottom: 4px;
+      font-family: Baskerville, "Iowan Old Style", "Times New Roman", serif;
+      font-size: 17px;
+    }
+
+    .grammar-source span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grammar-source .focus {
+      color: var(--rust);
+      font-weight: 700;
+    }
+
+    .grammar-warning {
+      margin: 18px 0 22px;
+      padding: 13px 16px;
+      border-left: 4px solid var(--rust);
+      background: var(--rust-soft);
+    }
+
+    .grammar-warning b { color: var(--rust); }
+    .grammar-warning p { margin-bottom: 5px; }
+    .grammar-warning p:last-child { margin-bottom: 0; }
+
+    .paragraph {
+      margin-top: 46px;
+      padding-top: 6px;
+      border-top: 3px solid var(--ink);
+    }
+
+    .paragraph-head {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 20px;
+      padding: 24px 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .paragraph-no {
+      color: var(--rust);
+      font-family: Baskerville, "Iowan Old Style", serif;
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    .paragraph-head h2 {
+      margin-bottom: 5px;
+      font-size: 29px;
+      line-height: 1.25;
+    }
+
+    .paragraph-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .source-tool {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .source-window {
+      position: relative;
+      min-height: 250px;
+      padding: 24px 26px;
+      border-right: 1px solid var(--line);
+    }
+
+    .source-copy {
+      font-size: 18px;
+      line-height: 1.78;
+    }
+
+    .source-copy p { margin-bottom: 12px; }
+    .source-copy p:last-child { margin-bottom: 0; }
+
+    .source-cover {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: var(--muted);
+      text-align: center;
+      background: var(--gray-soft);
+    }
+
+    .source-cover .cover-icon {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--green);
+      font-size: 27px;
+    }
+
+    .source-tool.revealed .source-cover { display: none; }
+    .source-tool:not(.revealed) .source-copy { visibility: hidden; }
+
+    .source-controls {
+      padding: 23px;
+      background: #fbfbf8;
+    }
+
+    .source-controls h3 {
+      margin-bottom: 4px;
+      font-size: 18px;
+    }
+
+    .source-controls > p {
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .primary {
+      border-color: var(--green);
+      color: #fff;
+      background: var(--green);
+      font-weight: 700;
+    }
+
+    .primary:hover {
+      color: #fff;
+      background: #1f493d;
+    }
+
+    audio {
+      width: 100%;
+      height: 42px;
+      margin-top: 16px;
+    }
+
+    .training-step {
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step-label {
+      padding: 21px 18px 18px 0;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .step-label span {
+      display: block;
+      color: var(--rust);
+      font-family: Baskerville, "Iowan Old Style", serif;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .step-content {
+      min-width: 0;
+      padding: 19px 0 21px 24px;
+      border-left: 1px solid var(--line);
+    }
+
+    .step-instruction {
+      margin-bottom: 13px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .logic-path {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 0;
+      list-style: none;
+    }
+
+    .logic-path li {
+      position: relative;
+      flex: 1 1 150px;
+      min-height: 94px;
+      padding: 13px 27px 13px 13px;
+      border-top: 3px solid var(--green);
+      background: var(--gray-soft);
+    }
+
+    .logic-path li + li { border-left: 5px solid var(--paper); }
+
+    .logic-path li:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 32px;
+      right: 7px;
+      color: var(--rust);
+      font-weight: 800;
+    }
+
+    .logic-path b {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .logic-path .logic-hint {
+      display: block;
+      margin-top: 8px;
+      padding-top: 7px;
+      border-top: 1px solid #ccd3ce;
+      color: var(--rust);
+      font-family: Baskerville, "Iowan Old Style", "Times New Roman", serif;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.42;
+    }
+
+    .initial-lines {
+      padding: 15px 18px;
+      border-left: 4px solid var(--rust);
+      background: var(--rust-soft);
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .initial-lines p { margin-bottom: 7px; }
+    .initial-lines p:last-child { margin-bottom: 0; }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .word-bank span {
+      padding: 6px 9px;
+      border-bottom: 2px solid #b8c4bd;
+      color: var(--green);
+      background: var(--green-soft);
+      font-family: Baskerville, "Iowan Old Style", "PingFang SC", serif;
+      font-weight: 700;
+    }
+
+    .blank-recall {
+      min-height: 124px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 20px;
+      border: 1px dashed var(--line-strong);
+      background: var(--surface);
+    }
+
+    .blank-recall .symbol {
+      color: var(--rust);
+      font-size: 32px;
+    }
+
+    .blank-recall b {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .blank-recall p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .self-check {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .check-row {
+      min-height: 78px;
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      padding: 12px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .check-row input {
+      flex: 0 0 auto;
+      margin-top: 5px;
+      accent-color: var(--green);
+    }
+
+    .full-recall {
+      margin: 56px 0 0;
+      padding-top: 28px;
+      border-top: 4px solid var(--green);
+    }
+
+    .full-recall > h2 {
+      margin-bottom: 6px;
+      font-size: 32px;
+    }
+
+    .section-intro {
+      max-width: 820px;
+      color: var(--muted);
+    }
+
+    .story-spine {
+      margin: 24px 0;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .story-block {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .story-block:last-child { border-bottom: 0; }
+
+    .story-key {
+      padding: 17px 15px;
+      color: var(--green);
+      background: var(--green-soft);
+      font-weight: 800;
+    }
+
+    .story-key span {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--rust);
+      font-size: 22px;
+    }
+
+    .story-detail { padding: 17px 20px; }
+
+    .story-detail b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .story-detail p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .bridge {
+      padding: 10px 20px 10px 138px;
+      border-bottom: 1px solid var(--line);
+      color: var(--rust);
+      background: var(--rust-soft);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .recall-round {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .round-title {
+      padding-right: 18px;
+    }
+
+    .round-title b {
+      display: block;
+      color: var(--green);
+    }
+
+    .round-title span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .round-clues {
+      min-width: 0;
+      padding-left: 22px;
+      border-left: 1px solid var(--line);
+    }
+
+    .round-clues p { margin-bottom: 8px; }
+    .round-clues p:last-child { margin-bottom: 0; }
+
+    .icon-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .icon-line .arrow { color: var(--rust); }
+
+    .full-original {
+      display: none;
+      margin-top: 15px;
+      padding: 22px 24px;
+      border-left: 4px solid var(--rust);
+      background: var(--surface);
+    }
+
+    .full-original.show { display: block; }
+
+    .full-original h3 {
+      margin: 16px 0 5px;
+      color: var(--green);
+      font-size: 17px;
+    }
+
+    .full-original h3:first-child { margin-top: 0; }
+
+    .full-original p {
+      margin-bottom: 0;
+      font-size: 17px;
+    }
+
+    .error-note {
+      margin-top: 24px;
+    }
+
+    .error-note label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 700;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 105px;
+      resize: vertical;
+      padding: 12px 14px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .recovery {
+      margin: 38px 0 58px;
+      padding: 20px 0;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .recovery h2 {
+      margin-bottom: 12px;
+      font-size: 23px;
+    }
+
+    .recovery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .recovery-item {
+      padding: 5px 18px;
+      border-right: 1px solid var(--line);
+    }
+
+    .recovery-item:first-child { padding-left: 0; }
+    .recovery-item:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    .recovery-item b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--rust);
+    }
+
+    .recovery-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 24px 16px 32px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 820px) {
+      html { scroll-padding-top: 114px; }
+      .quick-actions { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 20px; }
+      .hero-method { align-self: auto; }
+      .source-tool { grid-template-columns: 1fr; }
+      .source-window {
+        min-height: 290px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .self-check { grid-template-columns: 1fr; }
+      .recovery-grid { grid-template-columns: 1fr; }
+      .recovery-item,
+      .recovery-item:first-child,
+      .recovery-item:last-child {
+        padding: 11px 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .recovery-item:last-child { border-bottom: 0; }
+    }
+
+    @media (max-width: 620px) {
+      main,
+      .topbar-main,
+      .section-nav-inner {
+        width: min(100% - 22px, 1080px);
+      }
+      .topbar-main { min-height: 54px; }
+      .brand {
+        display: block;
+        padding: 7px 0;
+      }
+      .brand strong,
+      .brand span { display: block; }
+      .brand span { margin-top: 1px; }
+      .section-nav a { padding: 8px 10px; }
+      .hero { padding-top: 30px; }
+      h1 { font-size: 34px; }
+      .overview { grid-template-columns: 1fr; }
+      .overview-step {
+        min-height: 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .overview-step:last-child { border-bottom: 0; }
+      .paragraph { margin-top: 36px; }
+      .paragraph-head {
+        grid-template-columns: 52px minmax(0, 1fr);
+        gap: 12px;
+      }
+      .paragraph-no { font-size: 32px; }
+      .paragraph-head h2 { font-size: 24px; }
+      .source-window,
+      .source-controls { padding: 18px; }
+      .source-window { min-height: 340px; }
+      .training-step {
+        display: block;
+        padding: 17px 0 20px;
+      }
+      .step-label {
+        padding: 0 0 10px;
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+      }
+      .step-label span { display: inline; }
+      .step-content {
+        padding: 0;
+        border-left: 0;
+      }
+      .grammar-head { grid-template-columns: 1fr; gap: 4px; }
+      .grammar-formulas,
+      .grammar-text-links { grid-template-columns: 1fr; }
+      .grammar-formula {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .grammar-formula:last-child { border-bottom: 0; }
+      .grammar-row {
+        grid-template-columns: 1fr;
+        padding: 10px 0;
+      }
+      .grammar-row > div {
+        padding: 3px 0;
+        border-right: 0;
+      }
+      .grammar-source { min-height: 0; }
+      .logic-path { display: block; }
+      .logic-path li {
+        min-height: 0;
+        padding-right: 13px;
+      }
+      .logic-path li + li { border-left: 0; border-top: 5px solid var(--paper); }
+      .logic-path li:not(:last-child)::after {
+        content: "↓";
+        top: auto;
+        right: 12px;
+        bottom: -18px;
+        z-index: 2;
+      }
+      .story-block,
+      .recall-round {
+        grid-template-columns: 1fr;
+      }
+      .story-key { padding: 11px 14px; }
+      .story-key span { display: inline; margin-right: 6px; }
+      .bridge { padding-left: 18px; }
+      .round-title { padding: 0 0 8px; }
+      .round-clues {
+        padding: 0;
+        border-left: 0;
+      }
+      .full-original { padding: 18px; }
+    }
+
+    @media print {
+      .topbar,
+      .button-row,
+      audio { display: none !important; }
+      body { background: #fff; }
+      main { width: 100%; }
+      .source-tool:not(.revealed) .source-copy { visibility: visible; }
+      .source-cover { display: none; }
+      .full-original { display: block; }
+      .paragraph,
+      .grammar-guide,
+      .training-step,
+      .full-recall { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-main">
+      <div class="brand">
+        <strong>A new kind of superhero</strong>
+        <span>学生用书 P31 · 前三段</span>
+      </div>
+      <div class="quick-actions">
+        <a href="#paragraph-1">开始背诵</a>
+        <a href="#full-recall">三段连背</a>
+      </div>
+    </div>
+    <nav class="section-nav" aria-label="段落导航">
+      <div class="section-nav-inner">
+        <a href="#grammar-guide">比较级与最高级</a>
+        <a href="#paragraph-1">01 身份与成就</a>
+        <a href="#paragraph-2">02 成长与选择</a>
+        <a href="#paragraph-3">03 争议与反转</a>
+        <a href="#full-recall">三段连背</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow"><span class="page-number">P31</span><span class="page-purpose">背诵指导</span></p>
+        <h1 id="page-title">先记住故事，再记住英文</h1>
+        <p class="hero-lead">每段内容都直接向下展开。先看懂句子之间为什么这样排列，再依次减少提示；卡住时只退回上一种线索，不从第一句重来。</p>
+      </div>
+      <aside class="hero-method">
+        <strong>学习目录</strong>
+        <ol class="lesson-toc">
+          <li><a href="#grammar-guide">复习 Grammar：比较级与最高级</a></li>
+          <li><a href="#paragraph-1">背第一段：身份与成就</a></li>
+          <li><a href="#paragraph-2">背第二段：成长与选择</a></li>
+          <li><a href="#paragraph-3">背第三段：争议与反转</a></li>
+          <li><a href="#full-recall">三段连背与自检</a></li>
+        </ol>
+      </aside>
+    </section>
+
+    <section class="overview" aria-label="三段故事总览">
+      <div class="overview-step">
+        <b>🎬 第一段：他是谁</b>
+        <p>用代表作和奖项证明 Tim Burton 是著名导演。</p>
+      </div>
+      <div class="overview-step">
+        <b>🌱 第二段：他怎样成为导演</b>
+        <p>童年兴趣逐步变成技能、工作和自己的电影。</p>
+      </div>
+      <div class="overview-step">
+        <b>🦇 第三段：他的选择成功了吗</b>
+        <p>一次不被看好的选角，最后形成成功反转。</p>
+      </div>
+    </section>
+
+    <section class="grammar-guide" id="grammar-guide" aria-labelledby="grammar-title">
+      <header class="grammar-head">
+        <div class="grammar-label">Grammar Map</div>
+        <div>
+          <h2 id="grammar-title">比较级与最高级：先认结构，再记变形</h2>
+          <p>下面的规则直接对应课文中的 <span class="en">taller, stronger, most famous, most popular, most successful</span> 和 <span class="en">shortest</span>。</p>
+        </div>
+      </header>
+
+      <div class="grammar-formulas">
+        <div class="grammar-formula">
+          <b>比较级：两者比较</b>
+          <div class="formula">A + be + comparative + than + B</div>
+          <p><span class="en">Batman is taller and stronger than ordinary men.</span><br>两个比较级比较同一个对象时，可以共用后面的 <span class="en">than + B</span>。</p>
+        </div>
+        <div class="grammar-formula">
+          <b>最高级：三者或更多之中最……</b>
+          <div class="formula">the + superlative + noun</div>
+          <p><span class="en">the shortest actor</span>；如果前面已有 <span class="en">his</span> 等物主限定词，就不再加 <span class="en">the</span>：<span class="en">His most popular films</span>。</p>
+        </div>
+      </div>
+
+      <div class="grammar-text-links" aria-label="比较级与最高级做题技巧">
+        <div class="grammar-source">
+          <b>填词判断：先圈标志词，再决定级别</b>
+          <p><span class="focus">原级</span>：<span class="en">as + 形容词原级 + as</span> 表示“一样……”；<span class="en">not as + 形容词原级 + as</span> 表示“不如……”。</p>
+          <p><span class="focus">比较级</span>：<span class="en">than</span>；<span class="en">much / far / a lot / a little / even + 比较级</span>；<span class="en">of the two</span>。</p>
+          <p><span class="focus">最高级</span>：<span class="en">in the class / world</span>；<span class="en">of all / the three</span>；<span class="en">one of + the + 最高级 + 复数名词</span>；<span class="en">ever / I know / of all time</span>。</p>
+          <span>先判断是在比较“两者”，还是在一个范围内找“最……”，再按词尾规则变形。</span>
+        </div>
+        <div class="grammar-source">
+          <b>课内改写：A 没有 B 大</b>
+          <p>相同：<span class="en">A <span class="focus">is as big as</span> B.</span></p>
+          <p>不及：<span class="en">A <span class="focus">isn't as big as</span> B.</span> 中间必须用原级 <span class="en">big</span>。</p>
+          <p><span class="en">A <span class="focus">is smaller than</span> B. = B <span class="focus">is bigger than</span> A.</span></p>
+          <span>比较电影院座位数时还可以说：<span class="en">A has fewer seats than B.</span> / <span class="en">B has more seats than A.</span></span>
+        </div>
+      </div>
+
+      <div class="grammar-rules" aria-label="比较级与最高级变形规则">
+        <div class="grammar-row">
+          <div class="rule-name">一般短词</div>
+          <div class="rule-example">tall → taller → tallest</div>
+          <div class="rule-note">直接加 <span class="en">-er / -est</span>。课文还有 <span class="en">stronger, shortest</span>。</div>
+        </div>
+        <div class="grammar-row">
+          <div class="rule-name">以 e 结尾</div>
+          <div class="rule-example">large → larger → largest</div>
+          <div class="rule-note">只加 <span class="en">-r / -st</span>。</div>
+        </div>
+        <div class="grammar-row">
+          <div class="rule-name">辅音字母 + y</div>
+          <div class="rule-example">happy → happier → happiest</div>
+          <div class="rule-note">把 <span class="en">y</span> 变成 <span class="en">i</span>，再加 <span class="en">-er / -est</span>。</div>
+        </div>
+        <div class="grammar-row">
+          <div class="rule-name">重读闭音节</div>
+          <div class="rule-example">big → bigger → biggest</div>
+          <div class="rule-note">末尾“辅音—元音—辅音”时，双写最后一个辅音字母。</div>
+        </div>
+        <div class="grammar-row">
+          <div class="rule-name">较长形容词</div>
+          <div class="rule-example">famous → more famous → most famous</div>
+          <div class="rule-note">词前加 <span class="en">more / most</span>。课文还有 <span class="en">popular, successful</span>。</div>
+        </div>
+        <div class="grammar-row">
+          <div class="rule-name">不规则变化</div>
+          <div class="rule-example">good → better → best</div>
+          <div class="rule-note"><span class="en">bad → worse → worst；far → farther/further → farthest/furthest</span>。</div>
+        </div>
+      </div>
+
+      <div class="grammar-text-links">
+        <div class="grammar-source">
+          <b>课文原句 1 · 比较级并列</b>
+          <p>Batman is a superhero who is <span class="focus">taller and stronger than</span> ordinary men.</p>
+          <span><span class="en">taller</span> 和 <span class="en">stronger</span> 共用 <span class="en">than ordinary men</span>。</span>
+        </div>
+        <div class="grammar-source">
+          <b>课文原句 2 · one of 最高级</b>
+          <p>Tim Burton is <span class="focus">one of the most famous</span> American film directors.</p>
+          <span><span class="en">one of + the + 最高级 + 复数名词</span>，所以是 <span class="en">directors</span>。</span>
+        </div>
+        <div class="grammar-source">
+          <b>课文原句 3 · 物主限定词 + 最高级</b>
+          <p><span class="focus">His most popular films</span> include ...</p>
+          <span><span class="en">His</span> 已经限定名词，不能再说 <span class="en">His the most popular films</span>。</span>
+        </div>
+        <div class="grammar-source">
+          <b>课文原句 4 · the + 最高级</b>
+          <p>He was in fact <span class="focus">the shortest actor</span> ever to play Batman.</p>
+          <span><span class="en">short → shortest</span>；最高级前保留 <span class="en">the</span>。</span>
+        </div>
+      </div>
+
+      <div class="grammar-warning">
+        <p><b>背诵时最容易错：</b>不能说 <span class="en">more taller</span> 或 <span class="en">the most shortest</span>；比较级和最高级标志不能重复。</p>
+        <p><b>本单元的比较级加强词：</b><span class="en">much / far / a lot + 比较级</span> 表示“……得多”，<span class="en">a little + 比较级</span> 表示“稍微……一点”。</p>
+      </div>
+    </section>
+
+    <section class="paragraph" id="paragraph-1" aria-labelledby="paragraph-1-title">
+      <header class="paragraph-head">
+        <div class="paragraph-no">01</div>
+        <div>
+          <h2 id="paragraph-1-title">身份与成就：先下结论，再给证据</h2>
+          <p>这一段回答：Tim Burton 是谁？哪些作品和奖项能证明？</p>
+        </div>
+      </header>
+
+      <div class="source-tool" data-source>
+        <div class="source-window">
+          <div class="source-copy en">
+            <p>Tim Burton is one of the most famous American film directors.</p>
+            <p>His most popular films include: <i>Batman</i> (1989), <i>Edward Scissorhands</i> (1990), <i>Batman Returns</i> (1992) and <i>Dumbo</i> (2019).</p>
+            <p>In 1990, he got a Daytime Emmy Award for his cartoon series <i>Beetlejuice</i> and in 1991 he got a Hugo Award for <i>Edward Scissorhands</i>.</p>
+          </div>
+          <div class="source-cover">
+            <span><span class="cover-icon">◫</span><b>教材原文已遮盖</b><br>先用下面的逻辑线索完整背诵</span>
+          </div>
+        </div>
+        <aside class="source-controls">
+          <h3>教材原文与示范朗读</h3>
+          <p>先听一遍，再遮盖原文跟读。背完以后才查看全文核对。</p>
+          <div class="button-row">
+            <button class="primary reveal-source" type="button">查看原文</button>
+            <button class="cover-source" type="button" disabled>遮盖原文</button>
+          </div>
+          <audio controls preload="metadata" src="朗读音频/u3-p31-paragraph-01.m4a"></audio>
+        </aside>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>1</span>逻辑顺序</div>
+        <div class="step-content">
+          <p class="step-instruction">第一句下结论，第二句用电影证明受欢迎，第三句再用奖项证明实力。</p>
+          <ol class="logic-path">
+            <li><b>结论</b>著名导演之一<span class="logic-hint">one of the most famous ... film directors</span></li>
+            <li><b>作品证据</b>四部代表作 + 年份<span class="logic-hint">His most popular films include: ...</span></li>
+            <li><b>奖项证据 1</b>1990 Emmy<span class="logic-hint">In 1990 ... Daytime Emmy Award ... <i>Beetlejuice</i></span></li>
+            <li><b>奖项证据 2</b>1991 Hugo<span class="logic-hint">and in 1991 ... Hugo Award ... <i>Edward Scissorhands</i></span></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>2</span>句首启动</div>
+        <div class="step-content">
+          <p class="step-instruction">看句首说出完整句，不要只念省略号前面的部分。</p>
+          <div class="initial-lines">
+            <p>Tim Burton is one of ...</p>
+            <p>His most popular films include: ...</p>
+            <p>In 1990, he got ... and in 1991 he got ...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>3</span>关键词</div>
+        <div class="step-content">
+          <p class="step-instruction">每组词必须扩展成教材中的完整句。</p>
+          <div class="word-bank en">
+            <span>one of the most famous</span><span>film directors</span><span>popular films include</span>
+            <span>1989 → 1990 → 1992 → 2019</span><span>In 1990</span><span>cartoon series</span>
+            <span>in 1991</span><span>Hugo Award</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>4</span>首字母</div>
+        <div class="step-content">
+          <p class="step-instruction">根据首字母恢复词形，特别注意 <span class="en">one of + the most + 复数名词</span>。</p>
+          <div class="initial-lines">
+            <p>Tim Burton is o__ of the m___ f_____ American film d________.</p>
+            <p>His most p______ films i______: <i>Batman</i> (1989), ...</p>
+            <p>In 1990, he g__ a Daytime Emmy Award f__ his cartoon series <i>Beetlejuice</i> a__ in 1991 ...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>5</span>全遮盖</div>
+        <div class="step-content">
+          <div class="blank-recall">
+            <span class="symbol">▶</span>
+            <div><b>从 “Tim Burton...” 开始连续背完</b><p>脑中只保留“结论 → 四部电影 → 两个奖项”这条证据链。</p></div>
+          </div>
+          <div class="self-check">
+            <label class="check-row"><input type="checkbox" data-check="p1-films"><span>四部电影与年份一一对应。</span></label>
+            <label class="check-row"><input type="checkbox" data-check="p1-one-of"><span>没有漏掉 <span class="en">one of</span>，<span class="en">directors</span> 使用复数。</span></label>
+            <label class="check-row"><input type="checkbox" data-check="p1-awards"><span>两个年份、奖项和作品对应准确。</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paragraph" id="paragraph-2" aria-labelledby="paragraph-2-title">
+      <header class="paragraph-head">
+        <div class="paragraph-no">02</div>
+        <div>
+          <h2 id="paragraph-2-title">成长与选择：兴趣怎样变成自己的电影</h2>
+          <p>这一段回答：童年的输入和尝试，怎样一步步变成学习、工作与独立创作？</p>
+        </div>
+      </header>
+
+      <div class="source-tool" data-source>
+        <div class="source-window">
+          <div class="source-copy en">
+            <p>Tim grew up watching horror films and cartoons.</p>
+            <p>He read Edgar Allan Poe's horror stories and he loved drawing.</p>
+            <p>He also made short films in his back garden.</p>
+            <p>After leaving school, Burton studied animation.</p>
+            <p>Then, he got a job at Walt Disney studios.</p>
+            <p>He was a very good animator, but he didn't draw in the Disney style.</p>
+            <p>So he left Disney and started to make his own films.</p>
+          </div>
+          <div class="source-cover">
+            <span><span class="cover-icon">◫</span><b>教材原文已遮盖</b><br>先沿着“输入—尝试—学习—冲突—选择”复述</span>
+          </div>
+        </div>
+        <aside class="source-controls">
+          <h3>教材原文与示范朗读</h3>
+          <p>听清过去式，并重读 <span class="en">but</span> 和 <span class="en">So</span>，它们决定故事转折。</p>
+          <div class="button-row">
+            <button class="primary reveal-source" type="button">查看原文</button>
+            <button class="cover-source" type="button" disabled>遮盖原文</button>
+          </div>
+          <audio controls preload="metadata" src="朗读音频/u3-p31-paragraph-02.m4a"></audio>
+        </aside>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>1</span>逻辑顺序</div>
+        <div class="step-content">
+          <p class="step-instruction">前五句按时间推进，最后两句用“但是 → 所以”解释他为什么独立。</p>
+          <ol class="logic-path">
+            <li><b>童年输入</b>看 + 读<span class="logic-hint">grew up watching ... / read ... horror stories</span></li>
+            <li><b>主动尝试</b>画 + 拍短片<span class="logic-hint">loved drawing / made short films ...</span></li>
+            <li><b>系统学习</b>学习动画<span class="logic-hint">After leaving school ... studied animation</span></li>
+            <li><b>进入行业</b>进入 Disney<span class="logic-hint">Then ... got a job at Walt Disney studios</span></li>
+            <li><b>冲突</b>不符合 Disney 风格<span class="logic-hint">but ... didn't draw in the Disney style</span></li>
+            <li><b>结果</b>离开，拍自己的电影<span class="logic-hint">So ... left Disney / started to make his own films</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>2</span>句首启动</div>
+        <div class="step-content">
+          <p class="step-instruction">句首本身就是时间与因果路标。</p>
+          <div class="initial-lines">
+            <p>Tim grew up ...</p>
+            <p>He read ... and he loved ...</p>
+            <p>He also made ...</p>
+            <p>After leaving school, ...</p>
+            <p>Then, he got ...</p>
+            <p>He was ..., but ...</p>
+            <p>So he left ... and started ...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>3</span>关键词</div>
+        <div class="step-content">
+          <p class="step-instruction">先恢复动作搭配，再补人、地点和连接词。</p>
+          <div class="word-bank en">
+            <span>grew up watching</span><span>horror films and cartoons</span><span>read Poe's stories</span>
+            <span>loved drawing</span><span>made short films</span><span>back garden</span>
+            <span>After leaving school</span><span>studied animation</span><span>Then</span>
+            <span>job at Disney</span><span>but</span><span>Disney style</span><span>So</span><span>his own films</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>4</span>首字母</div>
+        <div class="step-content">
+          <p class="step-instruction">注意 <span class="en">read</span> 的过去式读 /red/，以及 <span class="en">didn't + draw</span>。</p>
+          <div class="initial-lines">
+            <p>Tim g___ up w_______ horror films and cartoons.</p>
+            <p>He r___ Edgar Allan Poe's horror stories and he l____ drawing.</p>
+            <p>He a___ m___ short films in his back garden.</p>
+            <p>A____ leaving school, Burton s______ animation. T___, he g__ a job ...</p>
+            <p>He was a very good animator, b__ he d_____ draw in the Disney style.</p>
+            <p>S_ he l___ Disney and s______ to make his own films.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>5</span>全遮盖</div>
+        <div class="step-content">
+          <div class="blank-recall">
+            <span class="symbol">▶</span>
+            <div><b>沿着时间线连续背完七个动作</b><p>脑中只保留“输入 → 尝试 → 学习 → 工作 → but 冲突 → So 选择”。</p></div>
+          </div>
+          <div class="self-check">
+            <label class="check-row"><input type="checkbox" data-check="p2-order"><span>七个动作顺序正确，没有跳过动画学习或 Disney 工作。</span></label>
+            <label class="check-row"><input type="checkbox" data-check="p2-verbs"><span><span class="en">read</span> 读 /red/，<span class="en">didn't</span> 后使用 <span class="en">draw</span>。</span></label>
+            <label class="check-row"><input type="checkbox" data-check="p2-logic"><span><span class="en">but</span> 表冲突，<span class="en">So</span> 表结果，没有互换。</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="paragraph" id="paragraph-3" aria-labelledby="paragraph-3-title">
+      <header class="paragraph-head">
+        <div class="paragraph-no">03</div>
+        <div>
+          <h2 id="paragraph-3-title">争议与反转：不被看好的选择成功了</h2>
+          <p>这一段回答：大家为什么不看好 Michael Keaton？事实和结果是什么？</p>
+        </div>
+      </header>
+
+      <div class="source-tool" data-source>
+        <div class="source-window">
+          <div class="source-copy en">
+            <p>One of his most successful films is <i>Batman</i>.</p>
+            <p>At first, people were upset when Tim Burton chose the comedy actor Michael Keaton to play Batman.</p>
+            <p>Batman is a superhero who is taller and stronger than ordinary men, and Michael Keaton was too short.</p>
+            <p>At 1.75 m, he was in fact the shortest actor ever to play Batman.</p>
+            <p>However, the film was very successful and everybody loved Michael Keaton as Batman.</p>
+          </div>
+          <div class="source-cover">
+            <span><span class="cover-icon">◫</span><b>教材原文已遮盖</b><br>先说清“成功影片—选角争议—原因—反转”</span>
+          </div>
+        </div>
+        <aside class="source-controls">
+          <h3>教材原文与示范朗读</h3>
+          <p>读出 <span class="en">At first</span> 与 <span class="en">However</span> 的前后反转。</p>
+          <div class="button-row">
+            <button class="primary reveal-source" type="button">查看原文</button>
+            <button class="cover-source" type="button" disabled>遮盖原文</button>
+          </div>
+          <audio controls preload="metadata" src="朗读音频/u3-p31-paragraph-03.m4a"></audio>
+        </aside>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>1</span>逻辑顺序</div>
+        <div class="step-content">
+          <p class="step-instruction">先告诉读者电影成功，再回到最初的质疑，最后用结果反转质疑。</p>
+          <ol class="logic-path">
+            <li><b>结果预告</b>最成功的电影之一<span class="logic-hint">One of ... most successful films ... <i>Batman</i></span></li>
+            <li><b>最初反应</b>选喜剧演员，大家不满<span class="logic-hint">At first ... were upset / chose ... to play Batman</span></li>
+            <li><b>为什么</b>Batman 应更高、更强<span class="logic-hint">taller and stronger than ... / too short</span></li>
+            <li><b>事实</b>1.75 m，历来最矮<span class="logic-hint">At 1.75 m, ... in fact ... the shortest actor ever to play Batman</span></li>
+            <li><b>结果反转</b>影片成功，观众喜欢<span class="logic-hint">However / very successful / everybody loved ... as Batman</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>2</span>句首启动</div>
+        <div class="step-content">
+          <p class="step-instruction">用两个转折路标 <span class="en">At first</span> 和 <span class="en">However</span> 固定整段骨架。</p>
+          <div class="initial-lines">
+            <p>One of his most successful films is ...</p>
+            <p>At first, people were upset when ...</p>
+            <p>Batman is a superhero who is ..., and ...</p>
+            <p>At 1.75 m, he was in fact ...</p>
+            <p>However, the film was ... and everybody ...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>3</span>关键词</div>
+        <div class="step-content">
+          <p class="step-instruction">特别保留比较级、最高级和选角动作。</p>
+          <div class="word-bank en">
+            <span>most successful</span><span>At first</span><span>were upset</span><span>chose</span>
+            <span>comedy actor</span><span>to play Batman</span><span>taller and stronger than</span>
+            <span>too short</span><span>At 1.75 m</span><span>in fact</span>
+            <span>shortest actor ever to play</span><span>However</span><span>everybody loved</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>4</span>首字母</div>
+        <div class="step-content">
+          <p class="step-instruction">比较级共用一个 <span class="en">than</span>；最高级不要漏 <span class="en">the</span>。</p>
+          <div class="initial-lines">
+            <p>One of his m___ s________ films is <i>Batman</i>.</p>
+            <p>At f____, people were u____ when Tim Burton c____ the comedy actor ...</p>
+            <p>Batman is a superhero w__ is t_____ and s______ than ordinary men, and ...</p>
+            <p>At 1.75 m, he was in f___ the s_______ actor e___ to play Batman.</p>
+            <p>H______, the film was very successful and e________ loved ...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="training-step">
+        <div class="step-label"><span>5</span>全遮盖</div>
+        <div class="step-content">
+          <div class="blank-recall">
+            <span class="symbol">▶</span>
+            <div><b>从成功影片说到选角争议，再完成反转</b><p>脑中只保留“成功 → At first 质疑 → 身高证据 → However 成功”。</p></div>
+          </div>
+          <div class="self-check">
+            <label class="check-row"><input type="checkbox" data-check="p3-reversal"><span><span class="en">At first</span> 和 <span class="en">However</span> 构成清晰反转。</span></label>
+            <label class="check-row"><input type="checkbox" data-check="p3-compare"><span><span class="en">taller and stronger</span> 共用 <span class="en">than</span>，<span class="en">shortest</span> 使用最高级。</span></label>
+            <label class="check-row"><input type="checkbox" data-check="p3-ever"><span>准确说出 <span class="en">the shortest actor ever to play Batman</span>。</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="full-recall" id="full-recall" aria-labelledby="full-recall-title">
+      <h2 id="full-recall-title">三段连背：沿着一个故事走完全程</h2>
+      <p class="section-intro">不是把三段当成 15 个互不相关的句子。全文在回答三个连续问题：他是谁？他怎样成为这样的人？哪件事证明他的独特选择最终成功？</p>
+
+      <div class="story-spine">
+        <div class="story-block">
+          <div class="story-key"><span>🎬</span>WHO</div>
+          <div class="story-detail"><b>第一段：先建立人物</b><p>著名导演 → 用四部电影证明受欢迎 → 用两个奖项证明实力。</p></div>
+        </div>
+        <div class="bridge">↓ 接着追问：这样的导演是怎样成长起来的？</div>
+        <div class="story-block">
+          <div class="story-key"><span>🌱</span>HOW</div>
+          <div class="story-detail"><b>第二段：再解释成长路线</b><p>童年输入 → 自己动手 → 学习动画 → 进入 Disney → 风格冲突 → 走自己的路。</p></div>
+        </div>
+        <div class="bridge">↓ 接着追问：哪部电影最能证明他的选择虽然特别，却可能成功？</div>
+        <div class="story-block">
+          <div class="story-key"><span>🦇</span>TEST</div>
+          <div class="story-detail"><b>第三段：用 Batman 完成验证</b><p>成功影片 → 选角引发不满 → 身高看似不合适 → However，电影和演员都成功。</p></div>
+        </div>
+      </div>
+
+      <div class="recall-round">
+        <div class="round-title"><b>第 1 轮</b><span>中文逻辑 + 英文句首</span></div>
+        <div class="round-clues">
+          <p><b>WHO：</b><span class="en">Tim Burton is one of ... → His most popular films ... → In 1990 ... and in 1991 ...</span></p>
+          <p><b>HOW：</b><span class="en">Tim grew up ... → He read ... → He also made ... → After leaving school ... → Then ... → but ... → So ...</span></p>
+          <p><b>TEST：</b><span class="en">One of ... → At first ... → Batman is ... → At 1.75 m ... → However ...</span></p>
+        </div>
+      </div>
+
+      <div class="recall-round">
+        <div class="round-title"><b>第 2 轮</b><span>只看图标与连接词</span></div>
+        <div class="round-clues">
+          <div class="icon-line" aria-label="图标连背路线">
+            <span>🎬</span><span class="arrow">→</span><span>▣</span><span class="arrow">→</span><span>🏆</span>
+            <span class="arrow">↓</span>
+            <span>👁</span><span class="arrow">→</span><span>✏</span><span class="arrow">→</span><span>🎓</span><span class="arrow">→ but → So →</span><span>↗</span>
+            <span class="arrow">↓</span>
+            <span>🦇</span><span class="arrow">→ At first →</span><span>!</span><span class="arrow">→</span><span>📏</span><span class="arrow">→ However →</span><span>★</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="recall-round">
+        <div class="round-title"><b>第 3 轮</b><span>完全遮盖</span></div>
+        <div class="round-clues">
+          <div class="blank-recall">
+            <span class="symbol">■</span>
+            <div><b>不看文字，从第一句连续背到第三段结尾</b><p>段落连接处只问自己两个问题：“他怎样成长？”“哪个选择证明他成功？”</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-row" style="margin-top: 20px;">
+        <button class="primary" type="button" id="revealAll">查看三段原文</button>
+        <button type="button" id="coverAll" disabled>遮盖三段原文</button>
+      </div>
+      <div class="full-original en" id="fullOriginal">
+        <h3>Paragraph 1</h3>
+        <p>Tim Burton is one of the most famous American film directors. His most popular films include: <i>Batman</i> (1989), <i>Edward Scissorhands</i> (1990), <i>Batman Returns</i> (1992) and <i>Dumbo</i> (2019). In 1990, he got a Daytime Emmy Award for his cartoon series <i>Beetlejuice</i> and in 1991 he got a Hugo Award for <i>Edward Scissorhands</i>.</p>
+        <h3>Paragraph 2</h3>
+        <p>Tim grew up watching horror films and cartoons. He read Edgar Allan Poe's horror stories and he loved drawing. He also made short films in his back garden. After leaving school, Burton studied animation. Then, he got a job at Walt Disney studios. He was a very good animator, but he didn't draw in the Disney style. So he left Disney and started to make his own films.</p>
+        <h3>Paragraph 3</h3>
+        <p>One of his most successful films is <i>Batman</i>. At first, people were upset when Tim Burton chose the comedy actor Michael Keaton to play Batman. Batman is a superhero who is taller and stronger than ordinary men, and Michael Keaton was too short. At 1.75 m, he was in fact the shortest actor ever to play Batman. However, the film was very successful and everybody loved Michael Keaton as Batman.</p>
+      </div>
+
+      <div class="error-note">
+        <label for="errorNote">只记录本次最容易错的 1–3 处</label>
+        <textarea id="errorNote" placeholder="例如：P2 漏掉 After leaving school；P3 把 ever to play 说反。"></textarea>
+        <p class="small">记录会保存在当前浏览器中。下一次先背，再看这份记录。</p>
+      </div>
+    </section>
+
+    <section class="recovery" aria-labelledby="recovery-title">
+      <h2 id="recovery-title">卡住时，不要重新从头背</h2>
+      <div class="recovery-grid">
+        <div class="recovery-item"><b>忘了下一句讲什么</b><p>退回“逻辑顺序”，只看故事路线。</p></div>
+        <div class="recovery-item"><b>知道意思，想不起英文</b><p>退回“关键词”，先恢复固定搭配。</p></div>
+        <div class="recovery-item"><b>总在同一处出错</b><p>查看原文，读正确整句，再立刻遮盖重背。</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>课内材料：外研思辨 2A Unit 3，学生用书 P31。背诵范围为教材前三段。</footer>
+
+  <script>
+    document.querySelectorAll("[data-source]").forEach((tool) => {
+      const reveal = tool.querySelector(".reveal-source");
+      const cover = tool.querySelector(".cover-source");
+
+      reveal.addEventListener("click", () => {
+        tool.classList.add("revealed");
+        reveal.disabled = true;
+        cover.disabled = false;
+      });
+
+      cover.addEventListener("click", () => {
+        tool.classList.remove("revealed");
+        reveal.disabled = false;
+        cover.disabled = true;
+      });
+    });
+
+    const revealAll = document.getElementById("revealAll");
+    const coverAll = document.getElementById("coverAll");
+    const fullOriginal = document.getElementById("fullOriginal");
+
+    revealAll.addEventListener("click", () => {
+      fullOriginal.classList.add("show");
+      revealAll.disabled = true;
+      coverAll.disabled = false;
+    });
+
+    coverAll.addEventListener("click", () => {
+      fullOriginal.classList.remove("show");
+      revealAll.disabled = false;
+      coverAll.disabled = true;
+    });
+
+    const savedChecks = JSON.parse(localStorage.getItem("p31-checks-v2") || "{}");
+    document.querySelectorAll("[data-check]").forEach((input) => {
+      input.checked = Boolean(savedChecks[input.dataset.check]);
+      input.addEventListener("change", () => {
+        savedChecks[input.dataset.check] = input.checked;
+        localStorage.setItem("p31-checks-v2", JSON.stringify(savedChecks));
+      });
+    });
+
+    const errorNote = document.getElementById("errorNote");
+    errorNote.value = localStorage.getItem("p31-error-note") || "";
+    errorNote.addEventListener("input", () => {
+      localStorage.setItem("p31-error-note", errorNote.value);
+    });
+  </script>
+</body>
+</html>
