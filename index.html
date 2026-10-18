@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f6f6f2">
+  <link rel="icon" href="data:,">
+  <title>皓添英语学习方案：课内提分与口语表达</title>
+  <style>
+    :root {
+      --paper: #f6f6f2;
+      --surface: #ffffff;
+      --ink: #202723;
+      --muted: #66706a;
+      --line: #d7dcd8;
+      --green: #28594a;
+      --green-soft: #edf3ef;
+      --terracotta: #a44f35;
+      --terracotta-soft: #f8eee9;
+      --mustard: #756739;
+      --mustard-soft: #f2f0e8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 86px;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-width: 280px;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.62;
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; }
+    p, h1, h2, h3 { margin-top: 0; }
+    h1, h2, h3 {
+      font-family: "Songti SC", "STSong", Baskerville, serif;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 246, 242, 0.97);
+      backdrop-filter: blur(9px);
+    }
+
+    .topbar-inner {
+      width: calc(100% - 32px);
+      max-width: 1240px;
+      min-height: 66px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .topbar strong {
+      font-family: "Songti SC", "STSong", Baskerville, serif;
+      font-size: 19px;
+    }
+
+    .topbar span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-links {
+      display: flex;
+      gap: 6px;
+    }
+
+    .top-links a {
+      padding: 6px 9px;
+      border-bottom: 2px solid transparent;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .top-links a:hover {
+      border-bottom-color: var(--green);
+      color: var(--green);
+    }
+
+    .layout {
+      width: calc(100% - 32px);
+      max-width: 1180px;
+      margin: 30px auto 72px;
+      display: grid;
+      grid-template-columns: 205px minmax(0, 1fr);
+      gap: 34px;
+      align-items: start;
+    }
+
+    .toc {
+      position: sticky;
+      top: 86px;
+      padding: 4px 0 8px;
+      border-top: 3px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .toc strong {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toc a {
+      display: block;
+      margin: 2px 0;
+      padding: 6px 8px;
+      border-left: 3px solid transparent;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .toc a:hover {
+      border-left-color: var(--terracotta);
+      background: #f2f2ef;
+    }
+
+    .content { min-width: 0; }
+
+    .hero {
+      padding: 22px 0 30px;
+      border-top: 4px solid var(--green);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow,
+    .course-label {
+      margin-bottom: 6px;
+      color: var(--terracotta);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin-bottom: 12px;
+      font-size: clamp(32px, 4.5vw, 46px);
+      line-height: 1.16;
+    }
+
+    .hero .lead {
+      max-width: 860px;
+      margin-bottom: 18px;
+      color: #45514d;
+      font-size: 17px;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .summary-strip div {
+      min-height: 104px;
+      padding: 13px;
+      background: #f8f8f5;
+    }
+
+    .summary-strip b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--green);
+    }
+
+    .report-section {
+      margin-top: 34px;
+      padding: 27px 0 8px;
+      border-top: 2px solid var(--ink);
+    }
+
+    .report-section h2 {
+      margin-bottom: 6px;
+      font-size: 27px;
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+
+    .course-start {
+      margin-top: 52px;
+      padding-top: 30px;
+      border-top: 6px solid var(--green);
+    }
+
+    .content > .course-start:first-child { margin-top: 0; }
+
+    .course-label { color: var(--green); }
+
+    .course-start h2 {
+      max-width: 880px;
+      margin-bottom: 8px;
+      font-size: 34px;
+      white-space: nowrap;
+    }
+
+    .course-subtitle {
+      max-width: 900px;
+      margin-bottom: 18px;
+      color: #45514d;
+      font-size: 19px;
+      line-height: 1.55;
+    }
+
+    .section-intro {
+      max-width: 880px;
+      margin-bottom: 14px;
+      color: var(--muted);
+    }
+
+    .key {
+      font-weight: 800;
+      text-decoration: underline;
+      text-decoration-color: #b8c9c1;
+      text-decoration-thickness: 4px;
+      text-underline-offset: 3px;
+    }
+
+    .evidence,
+    .callout {
+      margin: 14px 0;
+      padding: 14px 16px;
+      border-left: 4px solid #8e9692;
+      background: #f0f1ee;
+    }
+
+    .evidence.green { border-left-color: var(--green); background: var(--green-soft); }
+    .evidence.terracotta { border-left-color: var(--terracotta); background: var(--terracotta-soft); }
+    .evidence.mustard { border-left-color: var(--mustard); background: var(--mustard-soft); }
+    .evidence p:last-child, .callout p:last-child { margin-bottom: 0; }
+
+    .evidence-grid,
+    .goal-grid,
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .evidence-item,
+    .goal-item,
+    .topic-item {
+      padding: 13px 15px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      border-left: 4px solid var(--green);
+      background: #f9f9f6;
+    }
+
+    .evidence-item h3,
+    .goal-item h3,
+    .topic-item h3 {
+      margin-bottom: 5px;
+      font-size: 17px;
+      white-space: nowrap;
+    }
+
+    .evidence-item p,
+    .goal-item p,
+    .topic-item p { margin-bottom: 0; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .flow-step {
+      min-height: 108px;
+      padding: 12px;
+      border-top: 3px solid var(--green);
+      background: #f0f1ee;
+      line-height: 1.5;
+    }
+
+    .flow-step b {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--terracotta);
+    }
+
+    .dialogue {
+      margin: 16px 0;
+      border: 1px solid var(--line);
+      background: #f9f9f6;
+    }
+
+    .dialogue-row {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 12px;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dialogue-row:last-child { border-bottom: 0; }
+    .dialogue-row b { color: var(--green); white-space: nowrap; }
+    .en { font-family: Baskerville, "Iowan Old Style", "Times New Roman", serif; }
+
+    table {
+      width: 100%;
+      margin: 14px 0;
+      border-collapse: collapse;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    th, td {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--green);
+      background: var(--green-soft);
+      white-space: nowrap;
+    }
+
+    td:first-child {
+      width: 1%;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    tbody tr:nth-child(even) td { background: #f8f8f5; }
+
+    .phase {
+      display: grid;
+      grid-template-columns: 125px minmax(0, 1fr);
+      border: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .phase:last-of-type { border-bottom: 1px solid var(--line); }
+    .phase > div {
+      padding: 13px 14px;
+      border-right: 1px solid var(--line);
+    }
+    .phase > div:last-child { border-right: 0; }
+
+    .phase-label {
+      color: #fff;
+      background: var(--green);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .compact-list {
+      margin: 8px 0 0;
+      padding-left: 22px;
+    }
+
+    .compact-list li + li { margin-top: 6px; }
+
+    .report-template {
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: #f8f8f5;
+    }
+
+    .report-template p { margin-bottom: 7px; }
+    .report-template p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 1050px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc {
+        position: static;
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+        padding: 5px 0;
+      }
+      .toc strong { display: none; }
+      .toc a { flex: 0 0 auto; }
+      .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner { width: calc(100% - 20px); max-width: 1180px; }
+      .top-links { display: none; }
+      .layout { width: calc(100% - 20px); max-width: 1180px; margin-top: 12px; }
+      .hero { padding: 20px 0 24px; }
+      .report-section h2 { font-size: 23px; }
+      .course-start h2 { font-size: 24px; }
+      h3 { font-size: 16px; }
+      .report-section { padding: 22px 0 4px; }
+      .summary-strip,
+      .evidence-grid,
+      .goal-grid,
+      .topic-grid { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .phase {
+        grid-template-columns: 1fr;
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--line);
+      }
+      .phase > div {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .phase > div:last-child { border-bottom: 0; }
+      .dialogue-row { grid-template-columns: 82px 1fr; }
+      .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      table { min-width: 760px; }
+    }
+
+    @media (max-width: 420px) {
+      .topbar span { display: none; }
+      .report-section h2 { font-size: 20px; }
+      .course-start h2 { font-size: 21px; }
+      h3 { font-size: 14px; }
+      .topic-item,
+      .evidence-item,
+      .goal-item { padding: 11px 12px; }
+    }
+
+    @media (max-width: 340px) {
+      .topbar strong { font-size: 17px; }
+      .report-section h2 { font-size: 18px; }
+      .course-start h2 { font-size: 19px; }
+      h3 { font-size: 13px; }
+    }
+
+    @media print {
+      .topbar, .toc { display: none !important; }
+      body { background: #fff; }
+      .layout { display: block; width: 100%; margin: 0; }
+      .hero, .report-section { break-inside: avoid; }
+      .report-section { margin-top: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <strong>皓添英语学习方案</strong>
+        <span>课内提分 · 口语表达</span>
+      </div>
+      <nav class="top-links" aria-label="快速导航">
+        <a href="#method">学习方法</a>
+        <a href="#speaking">兴趣与口语</a>
+        <a href="#school">课内怎么学</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="toc" aria-label="页面目录">
+      <strong>目录</strong>
+      <a href="#method">英语怎么学</a>
+      <a href="#speaking">兴趣与口语</a>
+      <a href="#school">课内怎么学</a>
+      <a href="#daily">日常建议</a>
+      <a href="#evidence-report">怎么看进步</a>
+    </aside>
+
+    <main class="content">
+      <section class="report-section course-start" id="method">
+        <p class="course-label">英语课程</p>
+        <h2>知识不贪多，一招鲜吃遍天</h2>
+        <p class="course-subtitle">围绕课内知识：同一个单词或语法，听说读写都要会，还要会改写。</p>
+        <p class="section-intro">皓添转移话题时不强行打断，而是<span class="key">顺着话题补充词汇，再让他用英文说出来</span>。</p>
+        <div class="flow">
+          <div class="flow-step"><b>把知识讲透</b>补充学校课堂没有讲透的<span class="key">语言规律和做题技巧</span>。例如总结<span class="key">比较级、最高级的词形变化规律</span>，再用题目验证，提高学习效率。</div>
+          <div class="flow-step"><b>课上完成作业</b><span class="key">课上完成学校作业</span>，减少额外占用时间；边写边<span class="key">归纳错误规律</span>，遇到相似内容反复提醒并针对性训练。</div>
+          <div class="flow-step"><b>从闲聊切入口语</b>把闲聊切换成英文：<span class="key">先鼓励皓添说出来</span>，再<span class="key">补充需要的语料、纠正语法</span>，最后用完整句重说。</div>
+        </div>
+        <div class="evidence">用口语对话练听力：根据雅思成绩复议判定逻辑（e.g.一个考生的听力成绩很高口语成绩很差，官方会怀疑考官是否打低了口语成绩），口语能力和听力水平强相关。</div>
+      </section>
+
+      <section class="report-section" id="speaking">
+        <h2>从兴趣开始说英语</h2>
+        <p class="section-intro">借他好奇的话题练一句简短、自然的口语回答。</p>
+        <div class="topic-grid">
+          <div class="topic-item">
+            <h3>冬天吃冰淇淋会受凉吗？</h3>
+            <p class="en">Probably not. Colds are caused by viruses, not by eating ice cream.</p>
+          </div>
+          <div class="topic-item">
+            <h3>“爱躺平”是双子座的特点吗</h3>
+            <p class="en">Yes. I’m curious like a typical Gemini, but I also love chilling out.</p>
+          </div>
+          <div class="topic-item">
+            <h3>长大后怎样找到性价比最高的工作？</h3>
+            <p class="en">I’d look for decent pay, reasonable hours and work I actually enjoy.</p>
+          </div>
+          <div class="topic-item">
+            <h3>你对什么事情有“Passion”？</h3>
+            <p class="en">I’m passionate about drawing because it brings my ideas to life.</p>
+          </div>
+        </div>
+
+        <h3>比如：皓添觉得英语比数学有趣</h3>
+        <div class="dialogue">
+          <div class="dialogue-row"><b>原来的想法</b><span>“我觉得英语比数学有趣，尤其是唱英文歌的时候。”</span></div>
+          <div class="dialogue-row"><b>先说一句</b><span class="en">English is more interesting than maths.</span></div>
+          <div class="dialogue-row"><b>加上理由</b><span class="en">English is more interesting than maths because I enjoy singing English songs.</span></div>
+          <div class="dialogue-row"><b>换种说法</b><span class="en">I find English more interesting than maths, especially when I learn through songs.</span></div>
+          <div class="dialogue-row"><b>可以复用的结构</b><span class="en">A is more ... than B. / I find A more ... than B.</span></div>
+        </div>
+      </section>
+
+      <section class="report-section" id="school">
+        <h2>课内英语怎么学扎实</h2>
+        <p class="section-intro">学校学什么，就把什么练熟。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>内容</th><th>怎么练</th><th>学会的表现</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>作业与错题</b></td>
+                <td>看完整原题，找句意、时间和比较范围；错后<strong>改整句</strong>。</td>
+                <td>遇到同类题，能自己指出判断线索。</td>
+              </tr>
+              <tr>
+                <td><b>语法</b></td>
+                <td>从作业里讲规则，再放进聊天、阅读和新句子。</td>
+                <td>不只说名称，还能解释<strong>为什么这样用</strong>。</td>
+              </tr>
+              <tr>
+                <td><b>课内单词</b></td>
+                <td>读准、记搭配、背例句，再<strong>口头造句</strong>。</td>
+                <td>听得懂、读得出、说写时会用。</td>
+              </tr>
+              <tr>
+                <td><b>课文背诵</b></td>
+                <td>先懂句意和顺序，再逐步减少提示。</td>
+                <td>卡住时能靠意思或关键词接下去。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 id="daily">日常练习建议</h3>
+        <div class="evidence green">
+          <p><b>每天 5–10 个新词即可，不贪多。</b></p>
+          <ol class="compact-list">
+            <li><strong>读准单词</strong>，理解它在句中的意思。</li>
+            <li><strong>背下例句</strong>，不只背中英文对应。</li>
+            <li><strong>口头造句</strong>，句子简单但必须完整。</li>
+          </ol>
+          <p>第二天先复习再学新词。<span class="key">例句会背、句子会说，比数量更重要。</span></p>
+        </div>
+      </section>
+
+      <section class="report-section" id="evidence-report">
+        <h2>怎么看英语进步</h2>
+        <p class="section-intro">每四周看一次：<strong>提示是否变少，独立完成是否变多</strong>。</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>看什么</th><th>观察点</th><th>进步表现</th></tr></thead>
+            <tbody>
+              <tr><td>作业</td><td>是否知道答案背后的原因？</td><td>提示变少，能解释选择依据。</td></tr>
+              <tr><td>重复错误</td><td>同类错误是否再次出现？</td><td>发现更快，相似句不再错。</td></tr>
+              <tr><td>单词与背诵</td><td>能不能用到英文表达当中？能不能更快地完成背诵？</td><td>会用单词，也能靠关键词续背。</td></tr>
+              <tr><td>说和写</td><td>能否说完整并换一种表达？</td><td>补词变少，旧结构会再用。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+    </main>
+  </div>
+</body>
+</html>
